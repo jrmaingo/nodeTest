@@ -130,7 +130,7 @@ if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   cd "$DEPLOYMENT_TARGET"
   eval $NPM_CMD install grunt-cli
   exitWithMessageOnError "installing grunt failed, see deploy.sh"
-  eval ./node_modules/.bin/grunt --no-color clean common dist
+  eval ./node_modules/.bin/grunt --no-color build
   exitWithMessageOnError "grunt build failed, see deploy.sh"
   cd - > /dev/null
 fi
