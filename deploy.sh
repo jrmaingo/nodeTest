@@ -117,6 +117,30 @@ if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   cd - > /dev/null
 fi
 
+# 4. Install bower
+if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
+  cd "$DEPLOYMENT_TARGET"
+  eval $NPM_CMD install bower
+  exitWithMessageOnError "installing bower failed"
+  ecal .node_modules/.bin/bower install
+  exitWithMessageOnError "bower install failed"
+  cd - > /dev/null
+fi
+
+# 5. Install grunt
+if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
+  cd "$DEPLOYMENT_TARGET"
+  eval $NPM_CMD install grunt-cli
+  exitWithMessageOnError "installing grunt failed"
+  ecal .node_modules/.bin/grunt --no-color build
+  exitWithMessageOnError "grunt build failed"
+  cd - > /dev/null
+fi
+
+# 6. KuduSync Again?
+"$KUDU_SYNC_CMD" -v 500 -f "$DEPLOYMENT_SOURCE/dist" -t "$DEPLOYMENT_TARGET" -n "$NEXT_MANIFEST_PATH" -p "$PREVIOUS_MANIFEST_PATH" -i ".git;.hg;.deployment;deploy.sh"
+exitWithMessageOnError "Kudu Sync 2 failed"
+
 ##################################################################################################################################
 
 # Post deployment stub
