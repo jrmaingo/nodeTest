@@ -100,44 +100,22 @@ selectNodeVersion () {
 
 echo Handling node.js deployment.
 
-## See following links for more info:
-## http://download.microsoft.com/download/B/C/8/BC864212-F00D-483D-9CAD-CE5593EE010D/Continuous_Deployment_Using_Microsoft_Azure_Web_Sites.pdf
-## http://www.cptloadtest.com/2013/12/03/Git-And-Grunt-Deploy-To-Windows-Azure.aspx
+# 1. KuduSync
+if [[ "$IN_PLACE_DEPLOYMENT" -ne "1" ]]; then
+  "$KUDU_SYNC_CMD" -v 50 -f "$DEPLOYMENT_SOURCE" -t "$DEPLOYMENT_TARGET" -n "$NEXT_MANIFEST_PATH" -p "$PREVIOUS_MANIFEST_PATH" -i ".git;.hg;.deployment;deploy.sh"
+  exitWithMessageOnError "Kudu Sync failed"
+fi
 
-# 1. Select node version
+# 2. Select node version
 selectNodeVersion
 
-# 2. Install npm packages
+# 3. Install npm packages
 if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   cd "$DEPLOYMENT_TARGET"
   eval $NPM_CMD install --production
   exitWithMessageOnError "npm failed"
   cd - > /dev/null
 fi
-
-# 3. Install bower packages
-if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
-  cd "$DEPLOYMENT_TARGET"
-  eval $NPM_CMD install bower
-  exitWithMessageOnError "installing bower failed, see deploy.sh"
-  eval ./node_modules/.bin/bower install
-  exitWithMessageOnError "bower failed, see deploy.sh"
-  cd - > /dev/null
-fi
-
-# 4. Install and run grunt
-if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
-  cd "$DEPLOYMENT_TARGET"
-  eval $NPM_CMD install grunt-cli
-  exitWithMessageOnError "installing grunt failed, see deploy.sh"
-  eval ./node_modules/.bin/grunt --no-color build
-  exitWithMessageOnError "grunt build failed, see deploy.sh"
-  cd - > /dev/null
-fi
-
-# 5. KuduSync
-"$KUDU_SYNC_CMD" -v 500 -f "$DEPLOYMENT_SOURCE/dist" -t "$DEPLOYMENT_TARGET" -n "$NEXT_MANIFEST_PATH" -p "$PREVIOUS_MANIFEST_PATH" -i ".git;.hg;.deployment;deploy.sh"
-exitWithMessageOnError "Kudu Sync failed"
 
 ##################################################################################################################################
 
