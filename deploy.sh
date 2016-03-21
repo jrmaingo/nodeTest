@@ -77,7 +77,7 @@ selectNodeVersion () {
       NODE_EXE=`cat "$DEPLOYMENT_TEMP/__nodeVersion.tmp"`
       exitWithMessageOnError "getting node version failed"
     fi
-    
+
     if [[ -e "$DEPLOYMENT_TEMP/__npmVersion.tmp" ]]; then
       NPM_JS_PATH=`cat "$DEPLOYMENT_TEMP/__npmVersion.tmp"`
       exitWithMessageOnError "getting npm version failed"
@@ -122,7 +122,7 @@ if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   cd "$DEPLOYMENT_TARGET"
   eval $NPM_CMD install bower
   exitWithMessageOnError "installing bower failed"
-  ecal .node_modules/.bin/bower install
+  eval .node_modules/.bin/bower install
   exitWithMessageOnError "bower install failed"
   cd - > /dev/null
 fi
@@ -132,7 +132,7 @@ if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   cd "$DEPLOYMENT_TARGET"
   eval $NPM_CMD install grunt-cli
   exitWithMessageOnError "installing grunt failed"
-  ecal .node_modules/.bin/grunt --no-color build
+  eval .node_modules/.bin/grunt --no-color build
   exitWithMessageOnError "grunt build failed"
   cd - > /dev/null
 fi
