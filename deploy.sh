@@ -122,7 +122,7 @@ if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   cd "$DEPLOYMENT_TARGET"
   eval $NPM_CMD install bower
   exitWithMessageOnError "installing bower failed"
-  eval .node_modules/.bin/bower install
+  eval ./node_modules/.bin/bower install
   exitWithMessageOnError "bower install failed"
   cd - > /dev/null
 fi
@@ -132,7 +132,7 @@ if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   cd "$DEPLOYMENT_TARGET"
   eval $NPM_CMD install grunt-cli
   exitWithMessageOnError "installing grunt failed"
-  eval .node_modules/.bin/grunt --no-color build
+  eval ./node_modules/.bin/grunt --no-color build
   exitWithMessageOnError "grunt build failed"
   cd - > /dev/null
 fi
