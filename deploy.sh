@@ -100,6 +100,9 @@ selectNodeVersion () {
 
 echo Handling node.js deployment.
 
+# set to use https to fix firewall/proxy bug
+git config --local url."https://".insteadOf git://
+
 # 1. KuduSync
 if [[ "$IN_PLACE_DEPLOYMENT" -ne "1" ]]; then
   "$KUDU_SYNC_CMD" -v 50 -f "$DEPLOYMENT_SOURCE" -t "$DEPLOYMENT_TARGET" -n "$NEXT_MANIFEST_PATH" -p "$PREVIOUS_MANIFEST_PATH" -i ".git;.hg;.deployment;deploy.sh"
