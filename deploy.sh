@@ -100,8 +100,8 @@ selectNodeVersion () {
 
 echo Handling node.js deployment.
 
-# set to use https to fix firewall/proxy bug
-git config --local url."https://".insteadOf git://
+# set to use https to fix firewall/proxy bug (does not work on azure)
+#git config --local url."https://".insteadOf git://
 
 # 1. KuduSync
 #if [[ "$IN_PLACE_DEPLOYMENT" -ne "1" ]]; then
@@ -120,6 +120,8 @@ if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   cd - > /dev/null
 fi
 
+echo installed npm
+
 # 4. Install bower
 if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   cd "$DEPLOYMENT_TARGET"
@@ -130,6 +132,8 @@ if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   cd - > /dev/null
 fi
 
+echo installed bower and run bower install
+
 # 5. Install grunt
 if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   cd "$DEPLOYMENT_TARGET"
@@ -139,6 +143,8 @@ if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   exitWithMessageOnError "grunt build failed"
   cd - > /dev/null
 fi
+
+echo installed grunt and run build
 
 # 6. KuduSync Again?
 "$KUDU_SYNC_CMD" -v 500 -f "$DEPLOYMENT_SOURCE/dist" -t "$DEPLOYMENT_TARGET" -n "$NEXT_MANIFEST_PATH" -p "$PREVIOUS_MANIFEST_PATH" -i ".git;.hg;.deployment;deploy.sh"
