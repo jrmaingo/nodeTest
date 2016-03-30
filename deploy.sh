@@ -128,18 +128,18 @@ else
 fi
 
 # 4. Install bower
-#if [ -e "$DEPLOYMENT_TARGET/bower.json" ]; then
-#  cd "$DEPLOYMENT_TARGET"
-#  eval $NPM_CMD install bower
-#  exitWithMessageOnError "installing bower failed"
+if [ -e "$DEPLOYMENT_TARGET/bower.json" ]; then
+  cd "$DEPLOYMENT_TARGET"
+  eval $NPM_CMD install bower
+  exitWithMessageOnError "installing bower failed"
 #  echo cleaning bower cache
 #  eval ./node_modules/.bin/bower cache clean
 #  eval ./node_modules/.bin/bower install
 #  exitWithMessageOnError "bower install failed"
-#  cd - > /dev/null
-#else
-#  echo "bower.json not found"
-#fi
+  cd - > /dev/null
+else
+  echo "bower.json not found"
+fi
 
 # 5. Install grunt
 if [ -e "$DEPLOYMENT_TARGET/Gruntfile.js" ]; then
