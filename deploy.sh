@@ -109,6 +109,8 @@ echo Handling node.js deployment.
 #  exitWithMessageOnError "Kudu Sync failed"
 #fi
 
+ls * -a;
+
 # 2. Select node version
 selectNodeVersion
 
@@ -118,33 +120,33 @@ if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
   eval $NPM_CMD install --production
   exitWithMessageOnError "npm failed"
   cd - > /dev/null
+else
+  echo "package.json not found"
 fi
 
-echo installed npm
-
 # 4. Install bower
-if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
+if [ -e "$DEPLOYMENT_TARGET/bower.json" ]; then
   cd "$DEPLOYMENT_TARGET"
   eval $NPM_CMD install bower
   exitWithMessageOnError "installing bower failed"
   eval ./node_modules/.bin/bower install
   exitWithMessageOnError "bower install failed"
   cd - > /dev/null
+else
+  echo "bower.json not found"
 fi
 
-echo installed bower and run bower install
-
 # 5. Install grunt
-if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
+if [ -e "$DEPLOYMENT_TARGET/Gruntfile.js" ]; then
   cd "$DEPLOYMENT_TARGET"
   eval $NPM_CMD install grunt-cli
   exitWithMessageOnError "installing grunt failed"
   eval ./node_modules/.bin/grunt --no-color build
   exitWithMessageOnError "grunt build failed"
   cd - > /dev/null
+else
+  echo "Gruntfile.js not found"
 fi
-
-echo installed grunt and run build
 
 # 6. KuduSync Again?
 "$KUDU_SYNC_CMD" -v 500 -f "$DEPLOYMENT_SOURCE/dist" -t "$DEPLOYMENT_TARGET" -n "$NEXT_MANIFEST_PATH" -p "$PREVIOUS_MANIFEST_PATH" -i ".git;.hg;.deployment;deploy.sh"
