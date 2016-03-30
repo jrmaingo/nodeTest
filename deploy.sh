@@ -103,14 +103,6 @@ echo Handling node.js deployment.
 # set to use https to fix firewall/proxy bug (does not work on azure)
 echo setting git urls to https
 git config url."https://".insteadOf git://
-git config --local url."https://".insteadOf git://
-git config --global url."https://".insteadOf git://
-
-# 1. KuduSync
-#if [[ "$IN_PLACE_DEPLOYMENT" -ne "1" ]]; then
-#  "$KUDU_SYNC_CMD" -v 50 -f "$DEPLOYMENT_SOURCE" -t "$DEPLOYMENT_TARGET" -n "$NEXT_MANIFEST_PATH" -p "$PREVIOUS_MANIFEST_PATH" -i ".git;.hg;.deployment;deploy.sh"
-#  exitWithMessageOnError "Kudu Sync failed"
-#fi
 
 ls * -a;
 
@@ -134,8 +126,8 @@ if [ -e "$DEPLOYMENT_TARGET/bower.json" ]; then
   exitWithMessageOnError "installing bower failed"
 #  echo cleaning bower cache
 #  eval ./node_modules/.bin/bower cache clean
-#  eval ./node_modules/.bin/bower install
-#  exitWithMessageOnError "bower install failed"
+  eval ./node_modules/.bin/bower install
+  exitWithMessageOnError "bower install failed"
   cd - > /dev/null
 else
   echo "bower.json not found"
