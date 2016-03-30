@@ -101,7 +101,10 @@ selectNodeVersion () {
 echo Handling node.js deployment.
 
 # set to use https to fix firewall/proxy bug (does not work on azure)
-#git config --local url."https://".insteadOf git://
+echo setting git urls to https
+git config url."https://".insteadOf git://
+git config --local url."https://".insteadOf git://
+git config --global url."https://".insteadOf git://
 
 # 1. KuduSync
 #if [[ "$IN_PLACE_DEPLOYMENT" -ne "1" ]]; then
@@ -129,6 +132,8 @@ if [ -e "$DEPLOYMENT_TARGET/bower.json" ]; then
   cd "$DEPLOYMENT_TARGET"
   eval $NPM_CMD install bower
   exitWithMessageOnError "installing bower failed"
+  echo cleaning bower cache
+  eval ./node_modules/.bin/bower cache clean
   eval ./node_modules/.bin/bower install
   exitWithMessageOnError "bower install failed"
   cd - > /dev/null
