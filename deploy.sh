@@ -122,12 +122,13 @@ fi
 # 4. Install bower
 if [ -e "$DEPLOYMENT_TARGET/bower.json" ]; then
   cd "$DEPLOYMENT_TARGET"
+  echo skipping bower actions
 #  eval $NPM_CMD install bower
 #  exitWithMessageOnError "installing bower failed"
 #  echo cleaning bower cache
 #  eval ./node_modules/.bin/bower cache clean
-  eval ./node_modules/.bin/bower install -o
-  exitWithMessageOnError "bower install failed"
+#  eval ./node_modules/.bin/bower install -o
+#  exitWithMessageOnError "bower install failed"
   cd - > /dev/null
 else
   echo "bower.json not found"
