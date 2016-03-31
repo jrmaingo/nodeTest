@@ -122,8 +122,8 @@ fi
 # 4. Install bower
 if [ -e "$DEPLOYMENT_TARGET/bower.json" ]; then
   cd "$DEPLOYMENT_TARGET"
-  eval $NPM_CMD install bower
-  exitWithMessageOnError "installing bower failed"
+#  eval $NPM_CMD install bower
+#  exitWithMessageOnError "installing bower failed"
 #  echo cleaning bower cache
 #  eval ./node_modules/.bin/bower cache clean
   eval ./node_modules/.bin/bower install -o
@@ -136,8 +136,8 @@ fi
 # 5. Install grunt
 if [ -e "$DEPLOYMENT_TARGET/Gruntfile.js" ]; then
   cd "$DEPLOYMENT_TARGET"
-  eval $NPM_CMD install grunt-cli
-  exitWithMessageOnError "installing grunt failed"
+#  eval $NPM_CMD install grunt-cli
+#  exitWithMessageOnError "installing grunt failed"
   eval ./node_modules/.bin/grunt --no-color build
   exitWithMessageOnError "grunt build failed"
   cd - > /dev/null
@@ -146,7 +146,7 @@ else
 fi
 
 # 6. KuduSync Again?
-"$KUDU_SYNC_CMD" -v 500 -f "$DEPLOYMENT_SOURCE/dist" -t "$DEPLOYMENT_TARGET" -n "$NEXT_MANIFEST_PATH" -p "$PREVIOUS_MANIFEST_PATH" -i ".git;.hg;.deployment;deploy.sh"
+"$KUDU_SYNC_CMD" -v 500 -f "$DEPLOYMENT_SOURCE/dist" -t "$DEPLOYMENT_TARGET" -n "$NEXT_MANIFEST_PATH" -p "$PREVIOUS_MANIFEST_PATH" -i ".git;.hg;.deployment;deploy.sh;server.js"
 exitWithMessageOnError "Kudu Sync 2 failed"
 
 ##################################################################################################################################
