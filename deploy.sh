@@ -127,7 +127,7 @@ if [ -e "$DEPLOYMENT_TARGET/bower.json" ]; then
   exitWithMessageOnError "installing bower failed"
 #  echo cleaning bower cache
 #  eval ./node_modules/.bin/bower cache clean
-  eval ./node_modules/.bin/bower install -o
+  eval ./node_modules/.bin/bower install
   exitWithMessageOnError "bower install failed"
   cd - > /dev/null
 else
