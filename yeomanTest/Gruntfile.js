@@ -396,9 +396,9 @@ module.exports = function (grunt) {
             { cwd: '', src: "deploy.sh", dest: "dist/deploy.sh" },
             { cwd: '', src: ".deployment", dest: "dist/.deployment" },
             { cwd: '', src: "bower.json", dest: "dist/bower.json" },
-            { cwd: '', src: "package.json", dest: "dist/package.json" }
+            { cwd: '', src: "package.json", dest: "dist/package.json" },
             { cwd: '', src: "server.js", dest: "dist/server.js" },
-            { cwd: '', src: "node_modules/express", dest: "dist/node_modules/express" },
+            { cwd: '', src: "node_modules/express", dest: "dist/node_modules/express" }
         ]
       },
       styles: {
