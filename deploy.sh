@@ -119,6 +119,10 @@ else
     echo "package.json not found"
 fi
 
+eval ls node_modules/*
+echo "---------------------"
+eval ls node_modules/bower/*
+
 # 4. Install bower
 if [ -e "$DEPLOYMENT_TARGET/bower.json" ]; then
     cd "$DEPLOYMENT_TARGET"
