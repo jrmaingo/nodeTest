@@ -119,9 +119,10 @@ else
     echo "package.json not found"
 fi
 
-eval ls node_modules/*
+ls .
+ls ./node_modules/*
 echo "---------------------"
-eval ls node_modules/bower/*
+ls ./node_modules/bower/*
 
 # 4. Install bower
 if [ -e "$DEPLOYMENT_TARGET/bower.json" ]; then
@@ -130,8 +131,8 @@ if [ -e "$DEPLOYMENT_TARGET/bower.json" ]; then
     eval $NPM_CMD install bower
     exitWithMessageOnError "installing bower failed"
     echo cleaning bower cache
-    eval ./node_modules/bin/bower cache clean
-    eval ./node_modules/bin/bower install
+#    ./node_modules/.bin/bower cache clean
+    ./node_modules/.bin/bower install
     exitWithMessageOnError "bower install failed"
     cd - > /dev/null
 else
@@ -143,7 +144,7 @@ if [ -e "$DEPLOYMENT_TARGET/Gruntfile.js" ]; then
     cd "$DEPLOYMENT_TARGET"
     #  eval $NPM_CMD install grunt-cli
     #  exitWithMessageOnError "installing grunt failed"
-    eval ./node_modules/.bin/grunt --no-color build
+    ./node_modules/.bin/grunt --no-color build
     exitWithMessageOnError "grunt build failed"
     cd - > /dev/null
 else
