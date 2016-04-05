@@ -125,10 +125,10 @@ if [ -e "$DEPLOYMENT_TARGET/bower.json" ]; then
     echo starting bower actions
     eval $NPM_CMD install bower
     exitWithMessageOnError "installing bower failed"
-    echo cleaning bower cache
+#    echo cleaning bower cache
 #    ./node_modules/.bin/bower cache clean
-    ./node_modules/.bin/bower install
-    exitWithMessageOnError "bower install failed"
+#    ./node_modules/.bin/bower install
+#    exitWithMessageOnError "bower install failed"
     cd - > /dev/null
 else
     echo "bower.json not found"
