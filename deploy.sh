@@ -32,7 +32,7 @@ ARTIFACTS=$SCRIPT_DIR/../artifacts
 KUDU_SYNC_CMD=${KUDU_SYNC_CMD//\"}
 
 if [[ ! -n "$DEPLOYMENT_SOURCE" ]]; then
-    DEPLOYMENT_SOURCE=$SCRIPT_DIR
+    DEPLOYMENT_SOURCE=$SCRIPT_DIR/yeomanTest
 fi
 
 if [[ ! -n "$NEXT_MANIFEST_PATH" ]]; then
@@ -104,18 +104,12 @@ echo Handling node.js deployment.
 echo setting git urls to https
 git config url."https://".insteadOf git://
 
-ls * -a;
-
 # 2. Select node version
 selectNodeVersion
 
-echo ================
-pwd;
-ls * -a;
-
 # 3. Install npm packages
-if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
-    cd "$DEPLOYMENT_TARGET"
+if [ -e "$DEPLOYMENT_SOURCE/package.json" ]; then
+    cd "$DEPLOYMENT_SOURCE"
     eval $NPM_CMD install #--production #need to comment out to install grunt dependencies
     exitWithMessageOnError "npm failed"
     cd - > /dev/null
@@ -123,13 +117,9 @@ else
     echo "package.json not found"
 fi
 
-echo ================
-pwd;
-ls * -a;
-
 # 4. Install bower
-if [ -e "$DEPLOYMENT_TARGET/bower.json" ]; then
-    cd "$DEPLOYMENT_TARGET"
+if [ -e "$DEPLOYMENT_SOURCE/bower.json" ]; then
+    cd "$DEPLOYMENT_SOURCE"
     echo starting bower actions
     eval $NPM_CMD install bower
     exitWithMessageOnError "installing bower failed"
@@ -142,13 +132,9 @@ else
     echo "bower.json not found"
 fi
 
-echo ================
-pwd;
-ls * -a;
-
 # 5. Install grunt
-if [ -e "$DEPLOYMENT_TARGET/Gruntfile.js" ]; then
-    cd "$DEPLOYMENT_TARGET"
+if [ -e "$DEPLOYMENT_SOURCE/Gruntfile.js" ]; then
+    cd "$DEPLOYMENT_SOURCE"
     eval $NPM_CMD install grunt-cli
     exitWithMessageOnError "installing grunt failed"
     ./node_modules/.bin/grunt --no-color build
@@ -158,12 +144,8 @@ else
     echo "Gruntfile.js not found"
 fi
 
-echo ================
-pwd;
-ls * -a;
-
 # 6. KuduSync Again?
-"$KUDU_SYNC_CMD" -v 500 -f "$DEPLOYMENT_SOURCE/dist" -t "$DEPLOYMENT_TARGET" -n "$NEXT_MANIFEST_PATH" -p "$PREVIOUS_MANIFEST_PATH" -i ".git;.hg;.deployment;deploy.sh;"
+"$KUDU_SYNC_CMD" -v 500 -f "$DEPLOYMENT_SOURCE/dist" -t "$DEPLOYMENT_TARGET" -n "$NEXT_MANIFEST_PATH" -p "$PREVIOUS_MANIFEST_PATH" -i ".git;.hg;"
 exitWithMessageOnError "Kudu Sync 2 failed"
 
 ##################################################################################################################################
