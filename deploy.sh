@@ -105,7 +105,7 @@ selectNodeVersion
 
 # Temporarily change source
 TMP_DEPLOYMENT_SOURCE=DEPLOYMENT_SOURCE
-DEPLOYMENT_SOURCE=$SCRIPT_DIR/yeomanTest
+DEPLOYMENT_SOURCE=./yeomanTest
 
 echo "deployment source: $DEPLOYMENT_SOURCE"
 echo "deployment target: $DEPLOYMENT_TARGET"
