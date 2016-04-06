@@ -109,6 +109,10 @@ ls * -a;
 # 2. Select node version
 selectNodeVersion
 
+echo ================
+pwd;
+ls * -a;
+
 # 3. Install npm packages
 if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
     cd "$DEPLOYMENT_TARGET"
@@ -118,6 +122,10 @@ if [ -e "$DEPLOYMENT_TARGET/package.json" ]; then
 else
     echo "package.json not found"
 fi
+
+echo ================
+pwd;
+ls * -a;
 
 # 4. Install bower
 if [ -e "$DEPLOYMENT_TARGET/bower.json" ]; then
@@ -134,6 +142,10 @@ else
     echo "bower.json not found"
 fi
 
+echo ================
+pwd;
+ls * -a;
+
 # 5. Install grunt
 if [ -e "$DEPLOYMENT_TARGET/Gruntfile.js" ]; then
     cd "$DEPLOYMENT_TARGET"
@@ -145,6 +157,10 @@ if [ -e "$DEPLOYMENT_TARGET/Gruntfile.js" ]; then
 else
     echo "Gruntfile.js not found"
 fi
+
+echo ================
+pwd;
+ls * -a;
 
 # 6. KuduSync Again?
 "$KUDU_SYNC_CMD" -v 500 -f "$DEPLOYMENT_SOURCE/dist" -t "$DEPLOYMENT_TARGET" -n "$NEXT_MANIFEST_PATH" -p "$PREVIOUS_MANIFEST_PATH" -i ".git;.hg;.deployment;deploy.sh;"
