@@ -32,7 +32,7 @@ ARTIFACTS=$SCRIPT_DIR/../artifacts
 KUDU_SYNC_CMD=${KUDU_SYNC_CMD//\"}
 
 if [[ ! -n "$DEPLOYMENT_SOURCE" ]]; then
-    DEPLOYMENT_SOURCE=$SCRIPT_DIR/yeomanTest
+    DEPLOYMENT_SOURCE=$SCRIPT_DIR
 fi
 
 if [[ ! -n "$NEXT_MANIFEST_PATH" ]]; then
@@ -98,6 +98,10 @@ selectNodeVersion () {
 # Deployment
 # ----------
 
+# Temporarily change source
+TMP_DEPLOYMENT_SOURCE=DEPLOYMENT_SOURCE
+DEPLOYMENT_SOURCE=$SCRIPT_DIR/yeomanTest
+
 echo Handling node.js deployment.
 
 # set to use https to fix firewall/proxy bug (does not work on azure)
@@ -150,6 +154,8 @@ fi
 # 6. KuduSync Again?
 "$KUDU_SYNC_CMD" -v 500 -f "$DEPLOYMENT_SOURCE/dist" -t "$DEPLOYMENT_TARGET" -n "$NEXT_MANIFEST_PATH" -p "$PREVIOUS_MANIFEST_PATH" -i ".git;.hg;"
 exitWithMessageOnError "Kudu Sync 2 failed"
+
+DEPLOYMENT_SOURCE=TMP_DEPLOYMENT_SOURCE
 
 ##################################################################################################################################
 
