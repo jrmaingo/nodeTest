@@ -98,21 +98,21 @@ selectNodeVersion () {
 # Deployment
 # ----------
 
-# Temporarily change source
-TMP_DEPLOYMENT_SOURCE=DEPLOYMENT_SOURCE
-DEPLOYMENT_SOURCE=$SCRIPT_DIR/yeomanTest
-
 echo Handling node.js deployment.
-
-# set to use https to fix firewall/proxy bug (does not work on azure)
-echo setting git urls to https
-git config url."https://".insteadOf git://
 
 # 2. Select node version
 selectNodeVersion
 
+# Temporarily change source
+TMP_DEPLOYMENT_SOURCE=DEPLOYMENT_SOURCE
+DEPLOYMENT_SOURCE=$SCRIPT_DIR/yeomanTest
+
 echo "deployment source: $DEPLOYMENT_SOURCE"
 echo "deployment target: $DEPLOYMENT_TARGET"
+
+# set to use https to fix firewall/proxy bug (does not work on azure)
+echo setting git urls to https
+git config url."https://".insteadOf git://
 
 # 3. Install npm packages
 if [ -e "$DEPLOYMENT_SOURCE/package.json" ]; then
