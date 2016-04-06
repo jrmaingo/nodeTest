@@ -151,9 +151,16 @@ else
     echo "Gruntfile.js not found"
 fi
 
+echo next manifest content
+cat $NEXT_MANIFEST_PATH
+echo ==================
+echo previous manifest content
+cat $PREVIOUS_MANIFEST_PATH
+echo ==================
+
 # 6. KuduSync Again?
 "$KUDU_SYNC_CMD" -v 500 -f "$DEPLOYMENT_SOURCE/dist" -t "$DEPLOYMENT_TARGET" -n "$NEXT_MANIFEST_PATH" -p "$PREVIOUS_MANIFEST_PATH" -i ".git;.hg;"
-exitWithMessageOnError "Kudu Sync 2 failed"
+exitWithMessageOnError "Kudu Sync failed"
 
 DEPLOYMENT_SOURCE=TMP_DEPLOYMENT_SOURCE
 
