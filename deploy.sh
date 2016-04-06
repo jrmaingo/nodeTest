@@ -107,6 +107,9 @@ git config url."https://".insteadOf git://
 # 2. Select node version
 selectNodeVersion
 
+echo "deployment source: $DEPLOYMENT_SOURCE"
+echo "deployment target: $DEPLOYMENT_TARGET"
+
 # 3. Install npm packages
 if [ -e "$DEPLOYMENT_SOURCE/package.json" ]; then
     cd "$DEPLOYMENT_SOURCE"
