@@ -47,7 +47,6 @@
     "test": "test"
   },
   "dependencies": {
-    "bower": "1.6.8",
     "express": "^4.13.4",
     "ix-cat": "1.1.1"
   },
