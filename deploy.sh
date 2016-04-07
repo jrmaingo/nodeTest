@@ -134,7 +134,7 @@ fi
 if [ -e "$DEPLOYMENT_SOURCE/bower.json" ]; then
     cd "$DEPLOYMENT_SOURCE"
     echo starting bower actions
-    eval $NPM_CMD install bower@1.3.3
+    eval $NPM_CMD install bower
     exitWithMessageOnError "installing bower failed"
     echo cleaning bower cache
     ./node_modules/.bin/bower cache clean
