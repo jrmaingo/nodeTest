@@ -116,15 +116,16 @@ git config url."https://".insteadOf git://
 
 # 3. Install npm packages
 if [ -e "$DEPLOYMENT_SOURCE/package.json" ]; then
+    PREV_DIR=`pwd`
     cd "$DEPLOYMENT_SOURCE"
     eval $NPM_CMD install #--production #need to comment out to install grunt dependencies
     exitWithMessageOnError "npm failed"
     echo applying grunt glob package workaround
-    cd ./node_modules/grunt
+    cd ./node_modules/grunt > /dev/null
     eval $NPM_CMD install glob@^6.0.4 --save
-    cd -
-    exitWithMessageOnError "updating glob failed, see http://stackoverflow.com/questions/30199739/enotsup-using-grunt"
     cd - > /dev/null
+    exitWithMessageOnError "updating glob failed, see http://stackoverflow.com/questions/30199739/enotsup-using-grunt"
+    cd $PREV_DIR > /dev/null
 else
     echo "package.json not found"
 fi
