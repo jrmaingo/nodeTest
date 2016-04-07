@@ -132,8 +132,8 @@ if [ -e "$DEPLOYMENT_SOURCE/bower.json" ]; then
     exitWithMessageOnError "installing bower failed"
 #    echo cleaning bower cache
 #    ./node_modules/.bin/bower cache clean
-#    ./node_modules/.bin/bower install
-#    exitWithMessageOnError "bower install failed"
+    ./node_modules/.bin/bower install
+    exitWithMessageOnError "bower install failed"
     cd - > /dev/null
 else
     echo "bower.json not found"
